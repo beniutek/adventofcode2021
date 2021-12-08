@@ -21,7 +21,7 @@ winner = Module.constants.reduce(Day01) do |winner, current|
 
   winner
 end
-
+puts "-------------------SOLUTION-------------------"
 puts "------------------PART 1----------------------"
 pp Object.const_get(winner.to_s).part1
 puts "----------------------------------------------"
