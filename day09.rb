@@ -80,10 +80,10 @@ module Day09
       size = memo[i][j] ? 0 : 1
       memo[i][j] = true
 
-      left_val = left(i,j,map) || 9
-      right_val = right(i,j,map) || 9
-      up_val = top(i,j,map) || 9
-      down_val = bottom(i,j,map) || 9
+      left_val = left(i,j,map)
+      right_val = right(i,j,map)
+      up_val = top(i,j,map)
+      down_val = bottom(i,j,map)
 
       go_left = center < left_val && left_val < 9 && j > 0
       go_right = center < right_val && right_val < 9 && j < columns_size
