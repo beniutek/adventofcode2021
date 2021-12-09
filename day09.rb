@@ -1,9 +1,3 @@
-# 2199943210
-# 3987894921
-# 9856789892
-# 8767896789
-# 9899965678
-
 module Day09
   class << self
     def load_input
@@ -58,6 +52,61 @@ module Day09
     end
 
     def part2
+      map = load_input
+      basin_sizes = []
+
+      columns_size = map.first.size
+      rows_size = map.size
+
+      memo = Array.new(rows_size) { Array.new(columns_size) }
+
+      map.each_with_index do |row, i|
+        row.each_with_index do |element, j|
+          if generic_smallest(i, j, map)
+            basin_sizes = basin_size(i, j, map, memo, rows_size, columns_size)
+          end
+        end
+      end
+
+      {
+        result: basin_sizes.max(3),
+        multiplication: basin_sizes.max(3).reduce(1) { |acc,x| acc*x }
+      }
+    end
+    
+    def basin_size(i, j, map, memo, rows_size, columns_size)
+      center = map[i][j]
+
+      size = memo[i][j] ? 0 : 1
+      memo[i][j] = true
+
+      left_val = left(i,j,map) || 9
+      right_val = right(i,j,map) || 9
+      up_val = top(i,j,map) || 9
+      down_val = bottom(i,j,map) || 9
+
+      go_left = center < left_val && left_val < 9 && j > 0
+      go_right = center < right_val && right_val < 9 && j < columns_size
+      go_up = center < up_val && up_val < 9 && i > 0
+      go_down = center < down_val && down_val < 9 && i < rows_size
+
+      if go_right
+        size += basin_size(i, j + 1, map, memo, rows_size, columns_size)
+      end
+
+      if go_left
+        size += basin_size(i, j - 1, map, memo, rows_size, columns_size)
+      end
+      
+      if go_up
+        size += basin_size(i - 1, j, map, memo, rows_size, columns_size)
+      end
+
+      if go_down
+        size += basin_size(i + 1, j, map, memo, rows_size, columns_size)
+      end
+
+      return size
     end
   end
 end
