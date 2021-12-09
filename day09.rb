@@ -63,7 +63,7 @@ module Day09
       map.each_with_index do |row, i|
         row.each_with_index do |element, j|
           if generic_smallest(i, j, map)
-            basin_sizes = basin_size(i, j, map, memo, rows_size, columns_size)
+            basin_sizes << basin_size(i, j, map, memo, rows_size, columns_size)
           end
         end
       end
