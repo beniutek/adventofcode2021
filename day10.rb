@@ -57,8 +57,6 @@ module Day10
     def part2
       input = load_input
       opening_chars = []
-      expected_closing_chars = []
-      offending_chars = []
       broken_line = false
       points = []
 
@@ -73,23 +71,15 @@ module Day10
             end
           else
             opening_chars << char
-            expected_closing_chars << MAP[char]
           end
         end
 
-        if broken_line
-          offending_chars = []
-          expected_closing_chars = []
-          opening_chars = []
-          broken_line = false
-        else
-          closing_chars = []
-          opening_chars.reverse_each do |char|
-            closing_chars << MAP[char]
-          end
-          points << get_points(closing_chars)
-          opening_chars = []
+        if not broken_line
+          points << calculate_incomplete_line_points(opening_chars)
         end
+
+        broken_line = false
+        opening_chars = []
       end
 
       {
@@ -97,7 +87,13 @@ module Day10
       }
     end
 
-    def get_points(closing_chars)
+    def calculate_incomplete_line_points(opening_chars)
+      closing_chars = []
+
+      opening_chars.reverse_each do |char|
+        closing_chars << MAP[char]
+      end
+
       closing_chars.reduce(0) do |acc, val|
         acc * 5 + COMPLETION_POINTS_MAP[val]
       end
