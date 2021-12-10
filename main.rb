@@ -7,6 +7,7 @@ require_relative './day06.rb'
 require_relative './day07.rb'
 require_relative './day08.rb'
 require_relative './day09.rb'
+require_relative './day10.rb'
 
 highest = :Day01
 
